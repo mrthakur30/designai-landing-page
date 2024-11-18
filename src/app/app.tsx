@@ -43,7 +43,7 @@ const Main = () => {
       <div className="py-10 w-full p-4 flex flex-col gap-3 justify-start">
         <h1 className="text-3xl font-bold text-left">Design AI <br /> Features</h1>
         <p className="text-gray-400 font-semibold">Enhance your image's resolution and achieve crisp, <br /> clear quality with a single click.</p>
-        <button className="flex rounded-2xl text-lg justify-center w-24 items-center text-green-3 bg-green-1 px-2 py-2 font-semibold">
+        <button         onClick={()=>setShowForm(true)} className="flex rounded-2xl text-lg justify-center w-24 items-center text-green-3 bg-green-1 px-2 py-2 font-semibold">
           Try Now
         </button>
 
