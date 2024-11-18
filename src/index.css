@@ -16,3 +16,61 @@
     }
   }
   
+
+/* Override for general styling */
+#diff {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.diff {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.diff-item-1,
+.diff-item-2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: clip-path 0.3s ease; /* Smooth transition */
+}
+
+.diff-item-1 img,
+.diff-item-2 img {
+  object-fit: cover; /* Ensure images fit the container */
+  width: 100%;
+  height: 100%;
+}
+
+.diff-resizer {
+  position: absolute;
+  height: 100%;
+  pointer-events: none; /* Prevent resizer from blocking mouse events */
+  z-index: 10;
+}
+
+/* Hover effect for better user experience */
+#diff:hover .diff-resizer {
+  transition: background-color 0.3s ease;
+}
+
+.diff-item-1 img,
+.diff-item-2 img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.diff-resizer {
+  z-index: 10;
+}

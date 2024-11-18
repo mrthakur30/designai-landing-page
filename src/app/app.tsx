@@ -1,281 +1,118 @@
-import { useState } from "react";
-import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
-import { API, DASHBOARD_URL } from "../api";
-import Header from "components/Header";
+
+import Form from "../components/Form"
+import Header from "../components/Header"
+import { CgArrowRight } from "react-icons/cg";
+import { BiHome } from "react-icons/bi";
+import { MdRoomPreferences, } from "react-icons/md";
+import { GrHomeOption } from "react-icons/gr";
+import BeforeAfterSlider from "components/Slider";
 import Footer from "components/Footer";
+import { useState } from "react";
 
-const App = () => {
-  const [phone, setPhone] = useState("");
-  const [otp, setOtp] = useState("");
-  const [isOtpSent, setIsOtpSent] = useState(false);
-  const [isNewUser, setIsNewUser] = useState(false);
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState({
-    phoneNumber: "",
-    email: "",
-    fname: "",
-    lname: "",
-    phoneVerified: false,
-    city: "",
-    pincode: "",
-  });
-
-  const [termsAccepted, setTermsAccepted] = useState(false);
-
-  const handleSendOtp = async () => {
-    if (!phone) {
-      setError("Please provide a phone number.");
-      return;
-    }
-    setLoading(true);
-    try {
-      const response = await axios.post(`${API}/phone/request-otp/nc`, {
-        phone,
-        countryCode: "+91",
-      });
-      if (response.status === 200) {
-        setIsOtpSent(true);
-        setError("");
-        toast.success("OTP sent successfully!");
-      }
-    } catch (error) {
-      toast.error("Failed to send OTP. Try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleVerifyOtp = async () => {
-    if (!otp) {
-      setError("Please enter the OTP.");
-      return;
-    }
-    setLoading(true);
-    try {
-      const response = await axios.post(`${API}/phone/verify-otp`, {
-        phone,
-        otp,
-      });
-      if (response.status === 200) {
-        await checkCustomerStatus();
-        setError("");
-        toast.success("OTP verified!");
-      } else {
-        setError("Invalid OTP.");
-      }
-    } catch (error) {
-      toast.error("Failed to verify OTP.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const checkCustomerStatus = async () => {
-    try {
-      const response = await axios.get(`${API}/custTable/check`, {
-        params: { phone, countryCode: "+91" },
-      });
-      if (response.status === 200) {
-        setIsNewUser(true);
-        toast("New user detected. Please register.");
-      }
-    } catch (error) {
-      await loginExistingCustomer();
-      toast("User Already Exists");
-    }
-  };
-
-  const loginExistingCustomer = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get(`${API}/custTable/by/phone`, {
-        params: { phone, countryCode: "+91" },
-      });
-
-      const data = response.data.data;
-
-      window.location.href = `${DASHBOARD_URL}/redirect?To=${'design-ai'}&Id=${data.Id}&Token=${data.Token}&Session=${data.Session}&Name=${data.Name}&Email=${data.Email}&Currency=${data.Currency}&Phone=${data.Phone}&PCode=${data.PCode}&RecId=${data.RecId}`;
-
-      toast.success("Logged in successfully!");
-    } catch (error) {
-      toast.error("Failed to log in.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const registerNewCustomer = async () => {
-    if (!termsAccepted) {
-      setError("You must accept the Terms and Conditions.");
-      return;
-    }
-    setLoading(true);
-    const apiData = {
-      Name: `${user.fname} ${user.lname}`,
-      Phone: phone,
-      PCode: "+91",
-      City: user.city,
-      ZipCode: user.pincode,
-      Email: user.email,
-    };
-    try {
-      const response = await axios.post(`${API}/custTable/signup`, apiData);
-
-      const data = response.data.data;
-
-      if (response.status === 200) {
-        const userToSend = {
-          fname: user.fname,
-          lname: user.lname,
-          email: user.email,
-          phoneVerified: user.phoneVerified,
-          phoneNumber: user.phoneNumber,
-          pCode: "+91",
-          city: user.city,
-          pincode: user.pincode,
-        };
-
-        await fetch("https://www.designelementary.com/api/user/india/sign-up", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(userToSend),
-        }).then(() => {
-          window.location.href = `${DASHBOARD_URL}/redirect?To=${'design-ai'}&Id=${data.Id}&Token=${data.Token}&Session=${data.Session}&Name=${data.Name}&Email=${data.Email}&Currency=${data.Currency}&Phone=${data.Phone}&PCode=${data.PCode}&RecId=${data.RecId}`;
-          toast.success("Registered successfully!");
-        }).catch((error) => error.response.json());
-      }
-    } catch (error) {
-      toast.error("Registration failed.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleInputChange = (field: string, value: string) => {
-    setUser((prev) => ({ ...prev, [field]: value }));
-  };
+const Main = () => {
+  const [showForm, setShowForm] = useState(false);
 
   return (
-    <>
+    <main className="w-full min-h-screen bg-green-4 grid justify-items-center">
       <Header />
-      <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-cover bg-center relative" style={{ backgroundImage: "url(/interior.png)" }}>
-        <Toaster position="top-center" reverseOrder={false} />
-        {loading && (
-          <div className="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
-            <div className="loader border-t-4 border-green-500 rounded-full w-16 h-16"></div>
+      <div className=" w-full mt-20 flex flex-col justify-center items-center">
+        <p className=" font-semibold rounded-3xl bg-gradient-to-r my-7 from-green-1 px-2 py-1 to-transparent text-center">Used by over 2 million people to redesign homes</p>
+      </div>
+
+      <div className="grid justify-items-center gap-7 ">
+        <span className="text-2xl font-bold ">
+          Your personal <span className="text-green-2"> AI</span> interior designer
+        </span>
+        <button
+        onClick={()=>setShowForm(true)}
+        className="flex shadow-md shadow-green-2 rounded-2xl justify-center items-center gap-4 bg-green-3 text-green-0 px-4 py-2 font-semibold">
+          <span>
+            Design Now 
+          </span>
+        </button>
+      </div>
+      <div className="">
+
+      </div>
+      {/* Features */}
+      {/* <div className="py-10">
+         <h1 className="text-xl md:text-5xl font-semibold px-10 text-zinc-800">Features and Benefits</h1>
+         <Slider images={data} />
+      </div> */}
+
+      <div className="py-10 w-full p-4 flex flex-col gap-3 justify-start">
+        <h1 className="text-3xl font-bold text-left">Design AI <br /> Features</h1>
+        <p className="text-gray-400 font-semibold">Enhance your image's resolution and achieve crisp, <br /> clear quality with a single click.</p>
+        <button className="flex rounded-2xl text-lg justify-center w-24 items-center text-green-3 bg-green-1 px-2 py-2 font-semibold">
+          Try Now
+        </button>
+
+        <div className="flex flex-col gap-4">
+          <div className="w-full transition-all hover:shadow-green-1 bg-gray-100 shadow-md bg-opacity-30 p-6 b rounded-2xl">
+            <BiHome color="#B1E182" size={45} />
+            <h1 className="text-xl font-semibold mt-5"> Design Interior</h1>
+            <p className="font-semibold mt-2 text-gray-400">Variety of settings to generate perfect interior for your needs.</p>
           </div>
-        )}
-        <div className="w-full md:w-1/2 text-center md:text-left px-4 md:px-12 flex flex-col justify-center h-full">
-          <h1 className="text-4xl md:text-6xl font-bold text-white">DesignAI</h1>
-          <p className="mt-4 text-lg md:text-2xl text-white mb-10">Design your interior with AI. Get free credits by signing up here.</p>
-        </div>
-        <div className="w-full md:w-1/3 bg-white bg-opacity-90 p-8 rounded-lg shadow-md" style={{ backgroundImage: "url(/image.jpg)" }}>
-          <div className="">
-            <h1 className="mb-5 text-slate-100 text-center text-4xl top-1/3 font-semibold w-full">Design Now</h1>
+          <div className="w-full transition-all hover:shadow-green-1 bg-gray-100 shadow-md bg-opacity-30  p-6  rounded-2xl">
+            <MdRoomPreferences color="#B1E182" size={45} />
+            <h1 className="text-xl font-semibold mt-5">   Transform your existing room</h1>
+            <p className="font-semibold mt-2 text-gray-400">
+              Upload an image of your room and our AI will restyle it with your chosen design preferences.
+            </p>
           </div>
-          {!isOtpSent ? (
-            <div>
-              <input
-                type="text"
-                placeholder="Phone Number"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className="input input-bordered w-full mb-4 p-4 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
-              {error && <p className="text-red-500 mb-2">{error}</p>}
-              <button
-                onClick={handleSendOtp}
-                className="btn btn-primary w-full py-3 rounded-lg bg-green-500 hover:bg-green-600 text-white focus:outline-none"
-              >
-                Send OTP
-              </button>
-            </div>
-          ) : isNewUser ? (
-            // Sign-up form for new users
-            <div>
-              <h2 className="text-xl font-semibold mb-4 text-slate-800">Register</h2>
-              <input
-                type="text"
-                placeholder="First Name"
-                value={user.fname}
-                onChange={(e) => handleInputChange("fname", e.target.value)}
-                className="input input-bordered w-full mb-6 p-4 rounded-lg border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
-              <input
-                type="text"
-                placeholder="Last Name"
-                value={user.lname}
-                onChange={(e) => handleInputChange("lname", e.target.value)}
-                className="input input-bordered w-full mb-6 p-4 rounded-lg border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
-              <input
-                type="email"
-                placeholder="Email"
-                value={user.email}
-                onChange={(e) => handleInputChange("email", e.target.value)}
-                className="input input-bordered w-full mb-6 p-4 rounded-lg border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
-              <input
-                type="text"
-                placeholder="City"
-                value={user.city}
-                onChange={(e) => handleInputChange("city", e.target.value)}
-                className="input input-bordered w-full mb-6 p-4 rounded-lg border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
-              <input
-                type="text"
-                placeholder="Pincode"
-                value={user.pincode}
-                onChange={(e) => handleInputChange("pincode", e.target.value)}
-                className="input input-bordered w-full mb-6 p-4 rounded-lg border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
-              <div className="flex items-center mb-6">
-                <input
-                  type="checkbox"
-                  checked={termsAccepted}
-                  onChange={() => setTermsAccepted(!termsAccepted)}
-                  className="mr-2"
-                />
-                <label htmlFor="terms" className="text-slate-600">
-                  I accept the <a href="/terms" className="text-blue-500">Terms and Conditions</a>
-                </label>
-              </div>
-              {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-              <button
-                onClick={registerNewCustomer}
-                className="btn btn-primary w-full py-4 text-white rounded-lg bg-green-500 hover:bg-green-600 focus:outline-none"
-              >
-                Register
-              </button>
-            </div>
-          ) : (
-            // OTP verification form
-            <div>
-              <input
-                type="text"
-                placeholder="Enter OTP"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                className="input input-bordered w-full mb-6 p-4 rounded-lg border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
-              {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-              <button
-                onClick={handleVerifyOtp}
-                className="btn btn-primary w-full py-4 text-white rounded-lg bg-green-500 hover:bg-green-600 focus:outline-none"
-              >
-                Verify OTP
-              </button>
-            </div>
-          )}
+          <div className="w-full transition-all hover:shadow-green-1 bg-gray-100 shadow-md bg-opacity-30 p-6  rounded-2xl">
+            <GrHomeOption color="#B1E182" size={45} />
+            <h1 className="text-xl font-semibold mt-5"> Manage room type</h1>
+            <p className="font-semibold mt-2 text-gray-400">
+              No matter what type of room you're designing, we've got you covered.
+            </p>
+          </div>
         </div>
       </div>
-      <Footer />
-    </>
-  );
-};
 
-export default App;
+      {/* Types */}
+
+      <div className="py-10 w-full p-4 flex flex-col gap-3 justify-start">
+        <h1 className="text-3xl font-bold text-left">Check Examples of <br /> DesignAI</h1>
+
+        <div>
+          <div>
+            <BeforeAfterSlider
+              beforeImage={"https://firebasestorage.googleapis.com/v0/b/design-elementary-2.appspot.com/o/designs%2Fbefore%2Fyashsharma2493%40gmail.com_WhatsApp%20Image%202024-01-19%20at%2018.59.46.jpeg?alt=media&token=2fe42869-f2d2-44e9-9493-4e4429dc80de"}
+              afterImage={"https://firebasestorage.googleapis.com/v0/b/design-elementary-2.appspot.com/o/myfile%2Fchanged%2Fdesign_46b7a19d-31dc-4012-a84d-fd2170f11a1e.jpg?alt=media&token=fbf8ab01-b76b-4ce1-8059-f327f4cbe95d"}
+            />
+          </div>
+
+          <div>
+            <BeforeAfterSlider
+              beforeImage={"https://firebasestorage.googleapis.com/v0/b/design-elementary-2.appspot.com/o/designs%2Fbefore%2Fyashsharma2493%40gmail.com_WhatsApp%20Image%202024-01-19%20at%2018.59.46.jpeg?alt=media&token=2fe42869-f2d2-44e9-9493-4e4429dc80de"}
+              afterImage={"https://firebasestorage.googleapis.com/v0/b/design-elementary-2.appspot.com/o/myfile%2Fchanged%2Fdesign_46b7a19d-31dc-4012-a84d-fd2170f11a1e.jpg?alt=media&token=fbf8ab01-b76b-4ce1-8059-f327f4cbe95d"}
+            />
+          </div>
+
+          <div>
+            <BeforeAfterSlider
+              beforeImage={"https://firebasestorage.googleapis.com/v0/b/design-elementary-2.appspot.com/o/designs%2Fbefore%2Fyashsharma2493%40gmail.com_WhatsApp%20Image%202024-01-19%20at%2018.59.46.jpeg?alt=media&token=2fe42869-f2d2-44e9-9493-4e4429dc80de"}
+              afterImage={"https://firebasestorage.googleapis.com/v0/b/design-elementary-2.appspot.com/o/myfile%2Fchanged%2Fdesign_46b7a19d-31dc-4012-a84d-fd2170f11a1e.jpg?alt=media&token=fbf8ab01-b76b-4ce1-8059-f327f4cbe95d"}
+            />
+          </div>
+        </div>
+
+      </div>
+
+      {/* FAQ */}
+      <div>
+
+      </div>
+
+      <Footer />
+      {showForm && (
+        <div className=" z-[40] w-full fixed h-full">
+          <Form />
+        </div>
+      )}
+    </main>
+  )
+}
+
+export default Main

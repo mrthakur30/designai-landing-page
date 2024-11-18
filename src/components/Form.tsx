@@ -1,0 +1,311 @@
+import { useState } from "react";
+import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
+import { API, DASHBOARD_URL } from "../api";
+const Form = () => {
+    const [phone, setPhone] = useState("");
+    const [otp, setOtp] = useState("");
+    const [isOtpSent, setIsOtpSent] = useState(false);
+    const [isNewUser, setIsNewUser] = useState(false);
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [user, setUser] = useState({
+        phoneNumber: "",
+        email: "",
+        fname: "",
+        lname: "",
+        phoneVerified: false,
+        city: "",
+        pincode: "",
+    });
+
+    const [termsAccepted, setTermsAccepted] = useState(false);
+
+    const handleSendOtp = async () => {
+        if (!phone) {
+            setError("Please provide a phone number.");
+            return;
+        }
+        setLoading(true);
+        try {
+            const response = await axios.post(`${API}/phone/request-otp/nc`, {
+                phone,
+                countryCode: "+91",
+            });
+            if (response.status === 200) {
+                setIsOtpSent(true);
+                setError("");
+                toast.success("OTP sent successfully!");
+            }
+        } catch (error) {
+            toast.error("Failed to send OTP. Try again.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleVerifyOtp = async () => {
+        if (!otp) {
+            setError("Please enter the OTP.");
+            return;
+        }
+        setLoading(true);
+        try {
+            const response = await axios.post(`${API}/phone/verify-otp`, {
+                phone,
+                otp,
+            });
+            if (response.status === 200) {
+                await checkCustomerStatus();
+                setError("");
+                toast.success("OTP verified!");
+            } else {
+                setError("Invalid OTP.");
+            }
+        } catch (error) {
+            toast.error("Failed to verify OTP.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const checkCustomerStatus = async () => {
+        try {
+            const response = await axios.get(`${API}/custTable/check`, {
+                params: { phone, countryCode: "+91" },
+            });
+            if (response.status === 200) {
+                setIsNewUser(true);
+                toast("New user detected. Please register.");
+            }
+        } catch (error) {
+            await loginExistingCustomer();
+            toast("User Already Exists");
+        }
+    };
+
+    const loginExistingCustomer = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get(`${API}/custTable/by/phone`, {
+                params: { phone, countryCode: "+91" },
+            });
+
+            const data = response.data.data;
+
+            window.location.href = `${DASHBOARD_URL}/redirect?To=${'finance-your-project'}&Id=${data.Id}&Token=${data.Token}&Session=${data.Session}&Name=${data.Name}&Email=${data.Email}&Currency=${data.Currency}&Phone=${data.Phone}&PCode=${data.PCode}&RecId=${data.RecId}`;
+            toast.success("Logged in successfully!");
+        } catch (error) {
+            toast.error("Failed to log in.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const registerNewCustomer = async () => {
+        if (!termsAccepted) {
+            setError("You must accept the Terms and Conditions.");
+            return;
+        }
+        setLoading(true);
+        const apiData = {
+            Name: `${user.fname} ${user.lname}`,
+            Phone: phone,
+            PCode: "+91",
+            City: user.city,
+            ZipCode: user.pincode,
+            Email: user.email,
+        };
+        try {
+            const response = await axios.post(`${API}/custTable/signup`, apiData);
+
+            const data = response.data.data;
+
+            if (response.status === 200) {
+                const userToSend = {
+                    fname: user.fname,
+                    lname: user.lname,
+                    email: user.email,
+                    phoneVerified: user.phoneVerified,
+                    phoneNumber: user.phoneNumber,
+                    pCode: "+91",
+                    city: user.city,
+                    pincode: user.pincode,
+                };
+
+                await fetch("https://www.designelementary.com/api/user/india/sign-up", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(userToSend),
+                }).then(() => {
+                    window.location.href = `${DASHBOARD_URL}/redirect?To=${'design-ai'}&Id=${data.Id}&Token=${data.Token}&Session=${data.Session}&Name=${data.Name}&Email=${data.Email}&Currency=${data.Currency}&Phone=${data.Phone}&PCode=${data.PCode}&RecId=${data.RecId}`;
+                    toast.success("Registered successfully!");
+                }).catch((error) => error.response.json());
+            }
+        } catch (error) {
+            toast.error("Registration failed.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleInputChange = (field: string, value: string) => {
+        setUser((prev) => ({ ...prev, [field]: value }));
+    };
+
+    return (
+        <>
+            <Toaster />
+            <div className="relative min-h-screen flex items-center justify-center backdrop-blur-lg bg-green-50/70">
+                <div className=" w-full  p-10 rounded-t-3xl  border bg-[#FFFFFF] shadow-xl">
+                    <h1 className="text-2xl font-bold text-green-600 text-center mb-6">
+                        Discover Personalized AI-Driven Design Products
+                    </h1>
+                    <ul className="list-disc list-inside text-gray-600 mb-6">
+                        <li>AI-Recommended Furniture & Decor</li>
+                        <li>Tailored to Your Style and Preferences</li>
+                        <li>Effortless and Smart Shopping Experience</li>
+                    </ul>
+                    {!isOtpSent ? (
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Mobile Number
+                            </label>
+                            <div className="flex input input-bordered w-full  text-lg rounded-lg mb-4">
+                                <div className=" inset-y-0 left-0  flex items-center pl-3 text-gray-500">
+                                    🇮🇳 +91
+                                </div>
+                                <input
+                                    type="text"
+                                    placeholder="XXXXXXXXX"
+                                    value={phone}
+                                    onChange={(e) => setPhone(e.target.value)}
+                                    className="border-0 focus:border-0 focus:outline-none focus:ring-0"
+                                />
+                            </div>
+                            <p className="text-xs text-gray-500 mb-4">
+                                By clicking on proceed, you agree to the{" "}
+                                <a href="/terms" className="text-green-600 underline">
+                                    Terms of Use
+                                </a>{" "}
+                                and{" "}
+                                <a href="/privacy" className="text-green-600 underline">
+                                    Privacy Policy
+                                </a>.
+                            </p>
+                            {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+                            <button
+                                onClick={handleSendOtp}
+                                disabled={loading}
+                                className={`btn btn-success w-full ${loading ? "btn-disabled" : ""
+                                    }`}
+                            >
+                                {loading ? (
+                                    <span className="loading loading-spinner"></span>
+                                ) : (
+                                    "Send OTP"
+                                )}
+                            </button>
+                        </div>
+                    ) : isNewUser ? (
+                        <div>
+                            <input
+                                type="text"
+                                placeholder="First Name"
+                                value={user.fname}
+                                onChange={(e) => handleInputChange("fname", e.target.value)}
+                                className="input input-bordered w-full mb-6 p-4 rounded-lg border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-green-500"
+                            />
+                            <input
+                                type="text"
+                                placeholder="Last Name"
+                                value={user.lname}
+                                onChange={(e) => handleInputChange("lname", e.target.value)}
+                                className="input input-bordered w-full mb-6 p-4 rounded-lg border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-green-500"
+                            />
+                            <input
+                                type="email"
+                                placeholder="Email"
+                                value={user.email}
+                                onChange={(e) => handleInputChange("email", e.target.value)}
+                                className="input input-bordered w-full mb-6 p-4 rounded-lg border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-green-500"
+                            />
+                            <input
+                                type="text"
+                                placeholder="City"
+                                value={user.city}
+                                onChange={(e) => handleInputChange("city", e.target.value)}
+                                className="input input-bordered w-full mb-6 p-4 rounded-lg border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-green-500"
+                            />
+                            <input
+                                type="text"
+                                placeholder="Pincode"
+                                value={user.pincode}
+                                onChange={(e) => handleInputChange("pincode", e.target.value)}
+                                className="input input-bordered w-full mb-6 p-4 rounded-lg border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-green-500"
+                            />
+                            <div className="flex items-center mb-4">
+                                <input
+                                    type="checkbox"
+                                    checked={termsAccepted}
+                                    onChange={() => setTermsAccepted(!termsAccepted)}
+                                    className="checkbox checkbox-success"
+                                />
+                                <label className="ml-2 text-gray-700">
+                                    I accept the{" "}
+                                    <a href="/terms" className="text-green-600">
+                                        Terms and Conditions
+                                    </a>
+                                </label>
+                            </div>
+                            {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+                            <button
+                                onClick={registerNewCustomer}
+                                disabled={loading}
+                                className={`btn btn-success w-full ${loading ? "btn-disabled" : ""
+                                    }`}
+                            >
+                                {loading ? (
+                                    <span className="loading loading-spinner"></span>
+                                ) : (
+                                    "Register"
+                                )}
+                            </button>
+                        </div>
+                    ) : (
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Enter OTP
+                            </label>
+                            <input
+                                type="text"
+                                placeholder="OTP"
+                                value={otp}
+                                onChange={(e) => setOtp(e.target.value)}
+                                className="input input-bordered w-full mb-4 p-4 rounded-lg focus:ring-2 focus:ring-green-500"
+                            />
+                            {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+                            <button
+                                onClick={handleVerifyOtp}
+                                disabled={loading}
+                                className={`btn btn-success w-full ${loading ? "btn-disabled" : ""
+                                    }`}
+                            >
+                                {loading ? (
+                                    <span className="loading loading-spinner"></span>
+                                ) : (
+                                    "Verify OTP"
+                                )}
+                            </button>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </>
+
+    );
+};
+
+export default Form;
