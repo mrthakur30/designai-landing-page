@@ -10,7 +10,7 @@ import { useState } from "react";
 import Slider from "components/Slider";
 
 const Main = () => {
-  const [showForm, setShowForm] = useState(true);
+  const [showForm, setShowForm] = useState(false);
 
   return (
     <main className="w-full min-h-screen bg-green-4 ">
