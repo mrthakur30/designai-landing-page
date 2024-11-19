@@ -175,8 +175,11 @@ const Form = () => {
                             </label>
                             <div className="flex input input-bordered w-full  text-lg rounded-lg mb-4">
                                 <div className="text-sm md:text-base flex items-center p-2 text-gray-500">
-                                    🇮🇳 +91
+                                    🇮🇳
                                 </div>
+                                <p className="text-sm md:text-base flex items-center p-2 mr-3 text-gray-500">
+
+                                    +91</p>
                                 <input
                                     type="text"
                                     placeholder="XXXXXXXXX"

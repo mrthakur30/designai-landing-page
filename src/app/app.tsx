@@ -14,25 +14,26 @@ const Main = () => {
 
   return (
     <main className="w-full min-h-screen bg-green-4 ">
-      <Header />
-         {showForm && (
-         <div className=" z-40 w-screen fixed  h-screen">
+      <Header onClick={()=>setShowForm(true)} />
+      {showForm && (
+        <div className=" z-40 w-screen fixed  h-screen">
           <Form />
         </div>
-       )} 
+      )}
       <div className="md:ml-8 md:pt-28 pt-20 flex justify-center md:justify-start items-center">
         <p className=" font-semibold md:text-2xl rounded-3xl bg-gradient-to-r my-7 from-green-1 px-2 py-1 to-transparent text-center">Used by over 2 million people to redesign homes</p>
       </div>
 
-      <img src="/bg.webp" className="hidden w-72 md:block absolute right-36 top-36" alt="" />
+      <img src="/bg.webp" 
+      className="hidden w-72 md:block absolute right-36 top-36" alt="" />
 
       <div className="md:ml-8 mx-4 flex md:flex-row flex-col justify-center md:justify-start items-center md:gap-7 ">
         <span className="text-2xl font-bold ">
           Your personal <span className="text-green-2"> AI</span> interior designer
         </span>
         <button
-        onClick={()=>setShowForm(true)}
-        className="flex text-xl w-36 mt-5 md:mt-0 shadow-md shadow-green-2 rounded-2xl justify-center items-center  bg-green-3 text-green-0 md:px-4 px-3 py-2 font-semibold">
+          onClick={() => setShowForm(true)}
+          className="flex text-xl w-36 mt-5 md:mt-0 shadow-md shadow-green-2 rounded-2xl justify-center items-center  bg-green-3 text-green-0 md:px-4 px-3 py-2 font-semibold">
           <span>
             Get Free
           </span>
@@ -47,14 +48,15 @@ const Main = () => {
          <Slider images={data} />
       </div> */}
 
-      <div className="py-10 w-full p-4 md:px-8 flex flex-col gap-3 justify-start">
+      <div className="py-10 w-full p-4 flex flex-col gap-3 justify-start">
         <h1 className="text-3xl font-bold text-left">Design AI <br /> Features</h1>
         <p className="text-gray-400 font-semibold">Enhance your image's resolution and achieve crisp, <br /> clear quality with a single click.</p>
-        <button onClick={()=>setShowForm(true)} className="flex md:text-xl rounded-3xl text-lg justify-center w-28 items-center text-green-3 bg-green-1 px-4 py-2 font-semibold">
+        <button onClick={() => setShowForm(true)}
+          className="flex rounded-2xl text-lg justify-center w-36 items-center text-green-3 bg-green-1 px-2 py-2 font-semibold">
           Try Now
         </button>
 
-        <div className="flex flex-col md:flex-row gap-4">
+        <div className="flex flex-col gap-4">
           <div className="w-full transition-all hover:shadow-green-1 bg-gray-100 shadow-md bg-opacity-30 p-6 b rounded-2xl">
             <BiHome color="#B1E182" size={45} />
             <h1 className="text-xl font-semibold mt-5"> Design Interior</h1>
@@ -80,7 +82,7 @@ const Main = () => {
       {/* Types */}
 
       <div>
-         <Slider />
+        <Slider />
       </div>
 
       <div className="py-10 w-full p-4 md:px-8 flex flex-col  gap-3 justify-start">
@@ -114,7 +116,7 @@ const Main = () => {
       {/* FAQ */}
 
       <Footer />
-   
+
     </main>
   )
 }
