@@ -14,7 +14,12 @@ const Main = () => {
 
   return (
     <main className="w-full min-h-screen bg-green-4 ">
-      {/* <Header /> */}
+      <Header />
+         {showForm && (
+         <div className=" z-40 w-screen fixed  h-screen">
+          <Form />
+        </div>
+       )} 
       <div className="md:ml-8 md:pt-28 pt-20 flex justify-center md:justify-start items-center">
         <p className=" font-semibold md:text-2xl rounded-3xl bg-gradient-to-r my-7 from-green-1 px-2 py-1 to-transparent text-center">Used by over 2 million people to redesign homes</p>
       </div>
@@ -109,11 +114,7 @@ const Main = () => {
       {/* FAQ */}
 
       <Footer />
-      {/* {showForm && ( */}
-        <div className=" z-[4000] w-full fixed h-full">
-          <Form />
-        </div>
-      {/* )} */}
+   
     </main>
   )
 }

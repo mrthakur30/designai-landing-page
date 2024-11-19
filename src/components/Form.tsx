@@ -159,7 +159,7 @@ const Form = () => {
         <>
             <Toaster />
             <div className="relative min-h-screen flex items-center justify-center backdrop-blur-lg bg-green-50/70">
-                <div className=" w-full  p-10 rounded-t-3xl  border bg-[#FFFFFF] shadow-xl">
+                <div className=" w-full md:w-1/3  p-10 rounded-t-3xl  border bg-[#FFFFFF] shadow-xl">
                     <h1 className="text-2xl font-bold text-green-600 text-center mb-6">
                         Discover Personalized AI-Driven Design Products
                     </h1>
@@ -174,7 +174,7 @@ const Form = () => {
                                 Mobile Number
                             </label>
                             <div className="flex input input-bordered w-full  text-lg rounded-lg mb-4">
-                                <div className=" inset-y-0 left-0  flex items-center pl-3 text-gray-500">
+                                <div className="text-sm md:text-base flex items-center p-2 text-gray-500">
                                     🇮🇳 +91
                                 </div>
                                 <input
