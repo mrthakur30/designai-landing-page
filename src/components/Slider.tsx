@@ -1,81 +1,89 @@
-import  { useState } from "react";
+import image1 from "/image.jpg"
+import image2 from "/image1.jpg"
+import image3 from "/image2.jpg"
+import image4 from "/interior.png"
+import  { useState, useEffect } from 'react';
 
-const BeforeAfterSlider = ({beforeImage ,afterImage } : any) => {
-  const [resizerWidth, setResizerWidth] = useState(250); // Default width for the slider in pixels
-  const [isDragging, setIsDragging] = useState(false); // Track dragging state
 
-  const handleMouseDown = () => setIsDragging(true);
-  const handleMouseUp = () => setIsDragging(false);
 
-  const handleMouseMove = (event : any) => {
-    if (!isDragging) return; // Only adjust the slider when dragging
 
-    const diffElement = document.getElementById("diff");
-    const bounds = diffElement?.getBoundingClientRect();
-    const mouseX = event.clientX - bounds.left;
-
-    // Ensure the resizer stays within the bounds
-    const newWidth = Math.max(0, Math.min(mouseX, bounds.width));
-    setResizerWidth(newWidth);
-  };
-
-  return (
-    <div
-      className="relative"
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-    >
-      <div
-        id="diff"
-        className="py-5 flex justify-center items-center relative mx-auto w-full"
-      >
-        <div className="relative mx-auto w-full">
-          <div className="diff z-30 w-full md:h-[500px] h-[300px] relative">
-            {/* After Image */}
-            <div className="absolute inset-0 overflow-hidden">
-              <img
-                src={beforeImage}
-                alt="After Image"
-                style={{
-                  position: "absolute",
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                }}
-              />
-            </div>
-
-            {/* Before Image */}
-            <div className="absolute inset-0 overflow-hidden">
-              <img
-                src={afterImage}
-                alt="Before Image"
-                style={{
-                  position: "absolute",
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  clipPath: `inset(0 0 0 ${resizerWidth}px)`, // Clip from the left to match the resizer
-                }}
-              />
-            </div>
-
+const images = [image1, image2, image3, image4]
+const ImageSlider = () => {
+  const [currentIndex, setCurrentIndex] = useState(1);
+  const [isAnimating, setIsAnimating] = useState(false);
   
 
-            {/* Slider Button */}
-            <button
-              className="absolute top-1/2 -translate-y-1/2 bg-[#F1F052] rounded-full w-[30px] h-[30px] border-2 border-black cursor-pointer z-20"
-              style={{
-                left: `${resizerWidth - 15}px`, // Center the button on the divider
-              }}
-              onMouseDown={handleMouseDown}
-              onMouseUp={handleMouseUp}
-            ></button>
+  const getVisibleImages = () => {
+    const lastIndex = images.length - 1;
+    if (currentIndex === 0) {
+      return [lastIndex, 0, 1];
+    } else if (currentIndex === lastIndex) {
+      return [lastIndex - 1, lastIndex, 0];
+    }
+    return [currentIndex - 1, currentIndex, currentIndex + 1];
+  };
+
+  const handleNext = () => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  };
+
+  const handlePrev = () => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsAnimating(false);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [currentIndex]);
+
+  const visibleImages = getVisibleImages();
+
+  return (
+    <div className="relative w-full max-w-6xl mx-auto h-96 overflow-hidden">
+      <div className="absolute inset-0 flex items-center justify-center">
+        {visibleImages.map((imgIndex, i) => (
+          <div
+            key={imgIndex}
+            className={`absolute transition-all duration-500 ease-in-out ${
+              i === 0 ? 'transform -translate-x-3/4 scale-75 opacity-50' :
+              i === 2 ? 'transform translate-x-3/4 scale-75 opacity-50' :
+              'transform scale-100 z-10'
+            }`}
+          >
+            <img
+              src={images[imgIndex]}
+              alt={`Slide ${imgIndex + 1}`}
+              className="rounded-lg shadow-xl max-h-80 w-auto"
+            />
           </div>
-        </div>
+        ))}
       </div>
+      
+      <button
+        onClick={handlePrev}
+        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/80 p-2 rounded-full shadow-lg z-20 hover:bg-white"
+      >
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+      
+      <button
+        onClick={handleNext}
+        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/80 p-2 rounded-full shadow-lg z-20 hover:bg-white"
+      >
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
     </div>
   );
 };
 
-export default BeforeAfterSlider;
+export default ImageSlider;
