@@ -10,7 +10,7 @@ const Header: React.FC = ({onClick} : any) => {
             <div className="flex md:gap-3 items-center justify-center gap-2 font-semibold text-xl md:text-2xl">
                 <img src={Logo} alt="Logo" className="md:h-10 h-7" />
                 <h1 className="md:text-3xl text-3xl text-green-0 ">|</h1>
-                <h1 className=" text-zinc-800  text-center">Home Loan</h1>
+                <h1 className=" text-zinc-800  text-center">DesignAI</h1>
             </div>
 
             <button type="button" onClick={onClick} className="text-white border-2 md:text-xl ml-5 font-semibold border-green-1 hover:bg-green-2 transition-all grid justify-items-center bg-green-1 p-2.5 px-4 rounded-full ">
