@@ -45,7 +45,7 @@ const ImageSlider = () => {
   const visibleImages = getVisibleImages();
 
   return (
-    <div className="relative w-full max-w-6xl mx-auto h-96 overflow-hidden">
+    <div className="relative w-full max-w-6xl md:max-w-8xl mx-auto h-96 overflow-hidden">
       <div className="absolute inset-0 flex items-center justify-center">
         {visibleImages.map((imgIndex, i) => (
           <div

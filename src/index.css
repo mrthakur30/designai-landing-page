@@ -74,3 +74,13 @@
 .diff-resizer {
   z-index: 10;
 }
+
+
+
+.main{
+  background-color: #fcfcff;
+  opacity: 0.8;
+  background-image:  radial-gradient(#0014ff 0.7000000000000001px, transparent 0.7000000000000001px), radial-gradient(#0014ff 0.7000000000000001px, #fcfcff 0.7000000000000001px);
+  background-size: 28px 28px;
+  background-position: 0 0,14px 14px;
+}

@@ -43,7 +43,7 @@ const BeforeAfterSlider = ({ beforeImage, afterImage }: any) => {
     >
       <div
         id="diff"
-        className="py-5 flex justify-center items-center relative md:w-1/2 w-full"
+        className="py-5 flex justify-center items-center relative  w-full"
       >
         <div className="relative w-full">
           <div className="diff rounded-xl z-30 w-full md:h-[500px] h-[300px] relative">
