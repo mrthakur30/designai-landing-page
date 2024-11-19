@@ -9,6 +9,7 @@ import Footer from "components/Footer";
 import { useState } from "react";
 import Slider from "components/Slider";
 import TestimonialCard from "components/ReviewCad";
+import FAQSection from "components/FAQ";
 
 const Main = () => {
   const [showForm, setShowForm] = useState(false);
@@ -23,14 +24,10 @@ const Main = () => {
       )}
 
       <div className="md:h-[80%] main flex flex-col  md:pl-56 pt-44 ">
-
-
         <img src="/bg.webp" className="hidden h-96 hover:-translate-y-8 transition-all md:block absolute right-36 top-44" alt="" />
-
-        <div className=" px-8 flex flex-col md:gap-16 gap-8 ">
-
+        <div className=" px-8 md:px-0 flex flex-col md:gap-16 gap-8 ">
           <div className=" flex  md:justify-start md:items-center">
-            <p className=" font-semibold md:text-4xl rounded-3xl bg-gradient-to-r text-black from-green-1 px-5 py-2 to-transparent text-center">Used by over 2 million people to redesign homes</p>
+            <p className=" font-semibold md:text-4xl text-xl rounded-3xl bg-gradient-to-r text-black from-green-1 px-5 py-2 to-transparent">Used by over 2 million people to redesign homes</p>
           </div>
           <span className=" text-4xl md:text-6xl font-bold ">
             Your personal <br /> <span className="text-green-2"> AI</span>  interior designer
@@ -43,7 +40,6 @@ const Main = () => {
             </span>
           </button>
         </div>
-
       </div>
       {/* Features */}
       {/* <div className="py-10">
@@ -92,7 +88,7 @@ const Main = () => {
       </div>
 
       <div className="py-10 w-full p-4 md:px-8 flex flex-col  gap-3 justify-center items-center">
-        <span className="text-3xl md:text-5xl md:text-center font-bold text-left">Check Examples of <br className="md:hidden" /><span className="text-green-2">DesignAI</span> </span>
+        <span className="text-3xl md:text-5xl md:text-center font-bold text-left">Check Examples of <span className="text-green-2">DesignAI</span> </span>
 
         <div className="md:w-9/12 w-full flex flex-col  ">
           <div className="w-full ">
@@ -124,35 +120,34 @@ const Main = () => {
 
       </div>
 
-      <div className="py-10 w-full pl-8 md:pl-56 flex flex-col gap-8 justify-start">
-      <h1 className="text-3xl md:text-5xl  font-bold text-left">Loved by many <br /> <span className="text-green-2">Worldwide</span></h1>
-       <div className="grid grid-cols-1 w-10/12 md:grid-cols-3 gap-8 ">
-             <div>
-                <TestimonialCard />
-             </div>
-             <div>
-                <TestimonialCard />
-             </div>
-             <div>
-                <TestimonialCard />
-             </div>
-             <div>
-                <TestimonialCard />
-             </div>
-             <div>
-                <TestimonialCard />
-             </div>
-             <div>
-                <TestimonialCard />
-             </div>
+      <div className="py-10 w-full  flex flex-col gap-8 justify-center items-center md:justify-start">
+        <h1 className="text-3xl md:text-5xl  font-bold text-left">Loved by many  <span className="text-green-2">Worldwide</span></h1>
+        <div className="grid grid-cols-1 w-10/12 md:grid-cols-3 gap-8 ">
+          <div>
+            <TestimonialCard />
+          </div>
+          <div>
+            <TestimonialCard />
+          </div>
+          <div>
+            <TestimonialCard />
+          </div>
+          <div>
+            <TestimonialCard />
+          </div>
+          <div>
+            <TestimonialCard />
+          </div>
+          <div>
+            <TestimonialCard />
+          </div>
 
-       </div>
+        </div>
       </div>
 
       {/* FAQ */}
-
+      <FAQSection />
       <Footer />
-
     </main>
   )
 }
