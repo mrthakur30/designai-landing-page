@@ -112,12 +112,8 @@ const Main = () => {
                 afterImage={"https://firebasestorage.googleapis.com/v0/b/design-elementary-2.appspot.com/o/myfile%2Fchanged%2Fdesign_46b7a19d-31dc-4012-a84d-fd2170f11a1e.jpg?alt=media&token=fbf8ab01-b76b-4ce1-8059-f327f4cbe95d"}
               />
             </div>
-
           </div>
-
-
         </div>
-
       </div>
 
       <div className="py-10 w-full  flex flex-col gap-8 justify-center items-center md:justify-start">

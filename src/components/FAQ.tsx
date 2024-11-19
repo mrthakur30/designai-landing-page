@@ -1,6 +1,4 @@
 
-import React from "react";
-
 const FAQSection = () => {
   const faqs = [
     {
@@ -45,9 +43,9 @@ const FAQSection = () => {
         {faqs.map((faq, index) => (
           <div
             key={index}
+            tabIndex={0}
             className="collapse collapse-arrow border border-green-300 bg-green-100 rounded-lg"
           >
-            <input type="checkbox" />
             <div className="collapse-title text-lg font-medium text-green-800">
               {faq.question}
             </div>
