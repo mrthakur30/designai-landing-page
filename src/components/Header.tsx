@@ -1,7 +1,7 @@
-import React from "react";
+
 import Logo from "../assets/navlogo.svg"
 import { BiLogIn } from "react-icons/bi";
-const Header: React.FC = ({onClick} : any) => {
+const Header = ({onClick} : any) => {
 
 
     return (
