@@ -22,8 +22,10 @@ const Main = () => {
           <Form />
         </div>
       )}
-
-      <div className="md:h-[80%] main flex flex-col  md:pl-56 pt-44 ">
+     
+      <div className="md:h-[80%] main flex flex-col  md:pl-56 md:pt-44 pt-20">
+      <img src="/bg.webp" className="md:hidden w-44 mx-auto" alt="" />
+        
         <img src="/bg.webp" className="hidden h-96 hover:-translate-y-8 transition-all md:block absolute right-36 top-44" alt="" />
         <div className=" px-8 md:px-0 flex flex-col md:gap-16 gap-8 ">
           <div className=" flex  md:justify-start md:items-center">
