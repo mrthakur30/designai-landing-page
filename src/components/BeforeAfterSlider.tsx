@@ -2,7 +2,7 @@ import { useState } from "react";
 import { BiExpandHorizontal } from "react-icons/bi";
 
 const BeforeAfterSlider = ({ beforeImage, afterImage }: any) => {
-  const [resizerWidth, setResizerWidth] = useState(250); // Default width for the slider in pixels
+  const [resizerWidth, setResizerWidth] = useState(550); // Default width for the slider in pixels
   const [isDragging, setIsDragging] = useState(false); // Track dragging state
 
   const handleStart = (event: any) => {

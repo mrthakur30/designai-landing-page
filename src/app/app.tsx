@@ -23,7 +23,7 @@ const Main = () => {
         </div>
       )}
      
-      <div className="md:h-[80%] main flex flex-col  md:pl-56 md:pt-44 pt-20">
+      <div className="md:h-[80%] main flex flex-col  md:pl-36 md:pt-44 pt-20">
       <img src="/bg.webp" className="md:hidden w-44 mx-auto" alt="" />
         
         <img src="/bg.webp" className="hidden h-96 hover:-translate-y-8 transition-all md:block absolute right-36 top-44" alt="" />
@@ -49,7 +49,7 @@ const Main = () => {
          <Slider images={data} />
       </div> */}
 
-      <div className="py-20 w-full md:pl-56 pl-8 pr-10 flex flex-col gap-8 justify-start">
+      <div className="py-20 w-full md:pl-36 pl-8 pr-10 flex flex-col gap-8 justify-start">
         <h1 className="text-3xl md:text-4xl font-bold text-left">Design <span className="text-green-2"> AI</span> <br className="md:hidden" /> Features</h1>
         <p className="text-gray-400 md:text-xl font-semibold">Enhance your image's resolution and achieve crisp, <br /> clear quality with a single click.</p>
         <button onClick={() => setShowForm(true)}
@@ -95,51 +95,31 @@ const Main = () => {
         <div className="md:w-9/12 w-full flex flex-col  ">
           <div className="w-full ">
             <BeforeAfterSlider
-              beforeImage={"https://firebasestorage.googleapis.com/v0/b/design-elementary-2.appspot.com/o/designs%2Fbefore%2Fyashsharma2493%40gmail.com_WhatsApp%20Image%202024-01-19%20at%2018.59.46.jpeg?alt=media&token=2fe42869-f2d2-44e9-9493-4e4429dc80de"}
-              afterImage={"https://firebasestorage.googleapis.com/v0/b/design-elementary-2.appspot.com/o/myfile%2Fchanged%2Fdesign_46b7a19d-31dc-4012-a84d-fd2170f11a1e.jpg?alt=media&token=fbf8ab01-b76b-4ce1-8059-f327f4cbe95d"}
+              afterImage={"https://firebasestorage.googleapis.com/v0/b/design-elementary-2.appspot.com/o/designs%2Fbefore%2Fundefined_Why-You-Should-Never-Leave-a-Room-Empty-When-Your-Homes-For-Sale.jpg?alt=media&token=c0ba2860-0ddf-4202-ab98-5efece86a636"}
+              beforeImage={"https://firebasestorage.googleapis.com/v0/b/design-elementary-2.appspot.com/o/myfile%2Fchanged%2Fdesign_a9f8c07d-3e88-4c22-94ad-232750f8b1d1.jpg?alt=media&token=e5ab2086-c607-4c56-b490-35c043fd4628"}
             />
           </div>
 
-          <div className="md:flex gap-5  ">
-            <div className="md:w-1/2">
-              <BeforeAfterSlider
-                beforeImage={"https://firebasestorage.googleapis.com/v0/b/design-elementary-2.appspot.com/o/designs%2Fbefore%2Fyashsharma2493%40gmail.com_WhatsApp%20Image%202024-01-19%20at%2018.59.46.jpeg?alt=media&token=2fe42869-f2d2-44e9-9493-4e4429dc80de"}
-                afterImage={"https://firebasestorage.googleapis.com/v0/b/design-elementary-2.appspot.com/o/myfile%2Fchanged%2Fdesign_46b7a19d-31dc-4012-a84d-fd2170f11a1e.jpg?alt=media&token=fbf8ab01-b76b-4ce1-8059-f327f4cbe95d"}
-              />
-            </div>
+          <div className="w-full ">
+            <BeforeAfterSlider
+              afterImage={"https://firebasestorage.googleapis.com/v0/b/design-elementary-2.appspot.com/o/myfile%2Fchanged%2Fdesign_203d4958-42a3-464e-9948-ec59f53809b9.jpg?alt=media&token=7f7fde8c-7f2c-4035-9641-6fca375c0222"}
+              beforeImage={"https://firebasestorage.googleapis.com/v0/b/design-elementary-2.appspot.com/o/designs%2Fbefore%2Fundefined_a14742c13879f731cd4756430a3beffa.jpg?alt=media&token=dd229eb7-43c6-4b38-b554-79c762f31a8d"}
+            />
+          </div>
 
-            <div className="md:w-1/2">
-              <BeforeAfterSlider
-                beforeImage={"https://firebasestorage.googleapis.com/v0/b/design-elementary-2.appspot.com/o/designs%2Fbefore%2Fyashsharma2493%40gmail.com_WhatsApp%20Image%202024-01-19%20at%2018.59.46.jpeg?alt=media&token=2fe42869-f2d2-44e9-9493-4e4429dc80de"}
-                afterImage={"https://firebasestorage.googleapis.com/v0/b/design-elementary-2.appspot.com/o/myfile%2Fchanged%2Fdesign_46b7a19d-31dc-4012-a84d-fd2170f11a1e.jpg?alt=media&token=fbf8ab01-b76b-4ce1-8059-f327f4cbe95d"}
-              />
-            </div>
+          <div className="w-full ">
+            <BeforeAfterSlider
+              beforeImage={"https://firebasestorage.googleapis.com/v0/b/design-elementary-2.appspot.com/o/myfile%2Fchanged%2Fdesign_737e3b8c-649a-473f-a6af-71a43a496d1e.jpg?alt=media&token=bed6011d-9631-4cd3-bf19-b4b5fb80f7f4"}
+              afterImage={"https://firebasestorage.googleapis.com/v0/b/design-elementary-2.appspot.com/o/designs%2Fbefore%2Fundefined_premium_photo-1661766077694-6e3750b0fb97.jpeg?alt=media&token=b02162d9-4cf4-43f2-9a61-0588f54e8b19"}
+             />
           </div>
         </div>
       </div>
 
       <div className="py-10 w-full  flex flex-col gap-8 justify-center items-center md:justify-start">
         <h1 className="text-3xl md:text-5xl  font-bold text-left">Loved by many  <span className="text-green-2">Worldwide</span></h1>
-        <div className="grid grid-cols-1 w-10/12 md:grid-cols-3 gap-8 ">
-          <div>
+        <div className="w-10/12">
             <TestimonialCard />
-          </div>
-          <div>
-            <TestimonialCard />
-          </div>
-          <div>
-            <TestimonialCard />
-          </div>
-          <div>
-            <TestimonialCard />
-          </div>
-          <div>
-            <TestimonialCard />
-          </div>
-          <div>
-            <TestimonialCard />
-          </div>
-
         </div>
       </div>
 
